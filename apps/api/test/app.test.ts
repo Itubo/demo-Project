@@ -233,9 +233,18 @@ describe('xuanzhi api mvp', () => {
       url: `/api/tasks/${task.id}/events`,
       headers: { authorization: `Bearer ${userA.token}` },
     });
+    const messagesResponse = await app.inject({
+      method: 'GET',
+      url: `/api/tasks/${task.id}/messages`,
+      headers: { authorization: `Bearer ${userA.token}` },
+    });
 
     expect(taskResponse.json<Task>().status).toBe('completed');
     expect(eventsResponse.json<AgentEvent[]>().at(-1)?.title).toBe('任务已完成');
+    expect(messagesResponse.json<Message[]>().at(-1)).toMatchObject({
+      role: 'assistant',
+      content: '已确认创建会议，任务已完成。',
+    });
   });
 
   it('accepts plugin writes with service token and ignores spoofed userId in payloads', async () => {

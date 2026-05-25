@@ -422,6 +422,14 @@ function updateApproval(
       status: status === 'approved' ? 'success' : 'error',
     });
     stream.broadcast(task.id, { type: 'agent.event.created', data: finalEvent });
+
+    const resultMessage = store.addMessage({
+      userId: task.userId,
+      taskId: task.id,
+      role: 'assistant',
+      content: status === 'approved' ? '已确认创建会议，任务已完成。' : '已拒绝创建会议，任务已取消。',
+    });
+    stream.broadcast(task.id, { type: 'message.created', data: resultMessage });
     stream.broadcast(task.id, { type: 'task.updated', data: task });
   }
 
