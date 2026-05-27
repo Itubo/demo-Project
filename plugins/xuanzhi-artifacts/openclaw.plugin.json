@@ -3,5 +3,28 @@
   "name": "Xuanzhi Artifacts",
   "description": "Emit Xuanzhi task events, artifacts, approvals, and task status updates.",
   "version": "0.1.0",
-  "main": "dist/index.js"
+  "main": "dist/index.js",
+  "entry": "src/index.ts",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "description": "Xuanzhi API base URL",
+        "default": "http://127.0.0.1:3000"
+      },
+      "token": {
+        "type": "string",
+        "description": "Service-level API token"
+      }
+    }
+  },
+  "contracts": {
+    "tools": [
+      "xuanzhi_emit_event",
+      "xuanzhi_create_artifact",
+      "xuanzhi_request_approval",
+      "xuanzhi_update_task_status"
+    ]
+  }
 }
